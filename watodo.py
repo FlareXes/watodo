@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from ast import arg
+from rich.console import Console
+from rich.table import Table
 import json
 import sys
 import os
@@ -19,6 +20,10 @@ class Utils:
         with open("watodo.json", "w") as file:
             json.dump(template, file, indent=4)
 
+    def load_json(self, json_file):
+        with open(json_file, "r") as file:
+            return json.load(file)
+
 
 class Todo_Database(Utils):
     def __init__(self) -> None:
@@ -28,7 +33,7 @@ class Todo_Database(Utils):
     def add(self, task) -> None:
         with open("watodo.json", "r") as file:
             todos = json.load(file)
-        
+
         todos["in-progress"].append(task)
 
         with open("watodo.json", "w") as file:
@@ -40,7 +45,7 @@ class Todo_Database(Utils):
 
         try:
             completed_task = todos["in-progress"].pop(sno_task - 1)
-            
+
             todos["completed"].append(completed_task)
 
             with open("watodo.json", "w") as file:
@@ -49,11 +54,38 @@ class Todo_Database(Utils):
             # Just ignore, no need to force any user interaction
             pass
 
+    def show(self, history=False) -> None:
+        todos = self.load_json("watodo.json")
+        table = Table()
+        table.add_column("Just Do It", justify="center",
+                         style="cyan", no_wrap=True)
+        for todo in todos["in-progress"]:
+            table.add_row(todo)
+
+        console = Console()
+        console.print(table)
+
+        if (history):
+            table = Table()
+            todos = self.load_json("watodo.json")
+            table = Table()
+            table.add_column("What To Do?", justify="center",
+                            style="cyan", no_wrap=True)
+            for todo in todos["completed"]:
+                table.add_row(todo)
+
+            console = Console()
+            console.print(table)
 
 
 if __name__ == "__main__":
     args = sys.argv
-    if args[1] == "c" or args[1] == "a":
+
+    if len(args) == 1:
+        Todo_Database().show()
+        exit(0)
+
+    if args[1] == "c" or args[1] == "a" or args[1] == "h":
         if args[1] == "a":
             task = " ".join(i for i in args[2:])
             Todo_Database().add(task)
@@ -63,6 +95,8 @@ if __name__ == "__main__":
                 Todo_Database().complete(sno_task)
             except ValueError:
                 pass
+        elif args[1] == "h":
+            Todo_Database().show(True)
         else:
             pass
     else:
