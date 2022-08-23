@@ -6,6 +6,8 @@ import json
 import sys
 import os
 
+DATABASE_LOC = os.path.expanduser("~") + "/.config/watodo"
+DATABASE = DATABASE_LOC + "/watodo.json"
 
 class Utils:
     def __init__(self) -> None:
@@ -17,7 +19,9 @@ class Utils:
             "completed": []
         }
 
-        with open("watodo.json", "w") as file:
+        os.makedirs(DATABASE_LOC, exist_ok=True)
+
+        with open(DATABASE, "w") as file:
             json.dump(template, file, indent=4)
 
     def load_json(self, json_file):
@@ -27,20 +31,20 @@ class Utils:
 
 class Todo_Database(Utils):
     def __init__(self) -> None:
-        if not os.path.exists("watodo.json"):
+        if not os.path.exists(DATABASE):
             self.create_template()
 
     def add(self, task) -> None:
-        with open("watodo.json", "r") as file:
+        with open(DATABASE, "r") as file:
             todos = json.load(file)
 
         todos["in-progress"].append(task)
 
-        with open("watodo.json", "w") as file:
+        with open(DATABASE, "w") as file:
             json.dump(todos, file, indent=4)
 
     def complete(self, sno_task) -> None:
-        with open("watodo.json", "r") as file:
+        with open(DATABASE, "r") as file:
             todos = json.load(file)
 
         try:
@@ -48,14 +52,14 @@ class Todo_Database(Utils):
 
             todos["completed"].append(completed_task)
 
-            with open("watodo.json", "w") as file:
+            with open(DATABASE, "w") as file:
                 json.dump(todos, file, indent=4)
         except IndexError:
             # Just ignore, no need to force any user interaction
             pass
 
     def show(self, history=False) -> None:
-        todos = self.load_json("watodo.json")
+        todos = self.load_json(DATABASE)
         table = Table()
         table.add_column("Just Do It", justify="center",
                          style="cyan", no_wrap=True)
@@ -67,7 +71,7 @@ class Todo_Database(Utils):
 
         if (history):
             table = Table()
-            todos = self.load_json("watodo.json")
+            todos = self.load_json(DATABASE)
             table = Table()
             table.add_column("What To Do?", justify="center",
                             style="cyan", no_wrap=True)

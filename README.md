@@ -1,7 +1,37 @@
-# watodo
-Very Minimial Todo Script With No Garbage - Which Suckless So, Just Do It Now. `Watodo` Tells What To Do? On Terminal.
+# Watodo
+Very Minimal Todo Script With No Garbage - Which Suckless So, Just Do It Now. `Watodo` Tells What To Do? On Terminal.
 
-# Licensed Under
+# Usage
+Add A Task
+```bash
+python watodo.py a [Text Here]
+```
+Mark A Task Complete
+```bash
+python watodo.py c [No. Of Task]
+```
+Example, Mask Task 2 As Complete
+```bash
+python watodo.py c 2
+```
+To List In-Progress Tasks Just Do
+```bash
+python watodo.py
+```
+List All Tasks
+```bash
+python watodo.py h
+```
+
+# Uninstall
+1. Remove The ***watodo.py*** Script Where You Stored It
+2. Then, Just Remove The Database Directory At ***~/.config/watodo***
+
+    ```bash
+    rm -rf ~/.config/watodo
+    ```
+
+# License
 
 MIT License
 
