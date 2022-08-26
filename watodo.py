@@ -73,7 +73,7 @@ class Todo_Database(Utils):
             table = Table()
             todos = self.load_json(DATABASE)
             table = Table()
-            table.add_column("What To Do?", justify="center",
+            table.add_column("That's What I Did?", justify="center",
                             style="cyan", no_wrap=True)
             for todo in todos["completed"]:
                 table.add_row(todo)
