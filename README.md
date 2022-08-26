@@ -23,12 +23,25 @@ List All Tasks
 python watodo.py h
 ```
 
+# Installation
+### Linux / MacOS
+```bash
+git clone https://github.com/FlareXes/watodo.git
+
+cd watodo
+
+chmod +x setup.sh watodo 
+
+./setup.sh
+```
+Now you can remove the repo
+
 # Uninstall
 1. Remove The ***watodo.py*** Script Where You Stored It
 2. Then, Just Remove The Database Directory At ***~/.config/watodo***
 
     ```bash
-    rm -rf ~/.config/watodo
+    rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
     ```
 
 # License
