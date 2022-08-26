@@ -34,7 +34,12 @@ chmod +x setup.sh watodo
 
 ./setup.sh
 ```
-Now you can remove the repo
+Now you can remove the repo and also don't need to type `python watodo.py`. Just do `watodo` anywhere in terminal.
+
+Example
+```bash
+watodo a update github repo
+```
 
 # Uninstall
 1. Remove The ***watodo.py*** Script Where You Stored It
