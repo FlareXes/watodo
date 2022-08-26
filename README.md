@@ -23,6 +23,11 @@ List All Tasks
 python watodo.py h
 ```
 
+# Requirements
+- rich
+```bash
+pip install rich
+```
 # Installation
 ### Linux / MacOS
 ```bash
