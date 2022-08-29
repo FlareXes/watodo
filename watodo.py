@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from secrets import choice
 from rich.console import Console
 from rich.table import Table
 import json
@@ -8,6 +9,7 @@ import os
 
 DATABASE_LOC = os.path.expanduser("~") + "/.config/watodo"
 DATABASE = DATABASE_LOC + "/watodo.json"
+
 
 class Utils:
     def __init__(self) -> None:
@@ -74,7 +76,7 @@ class Todo_Database(Utils):
             todos = self.load_json(DATABASE)
             table = Table()
             table.add_column("That's What I Did?", justify="center",
-                            style="cyan", no_wrap=True)
+                             style="cyan", no_wrap=True)
             for todo in todos["completed"]:
                 table.add_row(todo)
 
@@ -84,12 +86,13 @@ class Todo_Database(Utils):
 
 if __name__ == "__main__":
     args = sys.argv
+    console = Console()
 
     if len(args) == 1:
         Todo_Database().show()
         exit(0)
 
-    if args[1] == "c" or args[1] == "a" or args[1] == "h":
+    if args[1] == "c" or args[1] == "a" or args[1] == "h" or args[1] == "reset":
         if args[1] == "a":
             task = " ".join(i for i in args[2:])
             Todo_Database().add(task)
@@ -97,10 +100,19 @@ if __name__ == "__main__":
             try:
                 sno_task = int(args[2])
                 Todo_Database().complete(sno_task)
+                Todo_Database().show()
             except ValueError:
                 pass
         elif args[1] == "h":
             Todo_Database().show(True)
+        elif args[1] == "reset":
+            console.print("[yellow]WARNING![/yellow] This will remove all the task (y/N): ", end="")
+            choice = input()
+            if choice == "y":
+                Utils().create_template()
+                print("Removed All Task Successfully!")
+            else:
+                print("Process Aborted!")
         else:
             pass
     else:
