@@ -23,11 +23,20 @@ List All Tasks
 python watodo.py h
 ```
 
+# Arguments
+Args | Description |
+---|---
+a | Add a todo
+c | Mark todo as complete
+h | Show history
+reset | Forget all todos including history
+
 # Requirements
 - rich
 ```bash
 pip install rich
 ```
+
 # Installation
 ### Linux / MacOS
 ```bash
@@ -44,6 +53,10 @@ Now you can remove the repo and also don't need to type `python watodo.py`. Just
 Example
 ```bash
 watodo a update github repo
+```
+
+```bash
+watodo c 3
 ```
 
 # Uninstall
