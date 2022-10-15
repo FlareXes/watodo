@@ -63,10 +63,11 @@ class Todo_Database(Utils):
     def show(self, history=False) -> None:
         todos = self.load_json(DATABASE)
         table = Table()
-        table.add_column("Just Do It", justify="center",
-                         style="cyan", no_wrap=True)
-        for todo in todos["in-progress"]:
-            table.add_row(todo)
+        
+        table.add_column("\t  Just Do It", justify="left", style="cyan", no_wrap=True, header_style="white")
+
+        for i, todo in enumerate(todos["in-progress"]):
+            table.add_row(f"[magenta]{str(i + 1)}[/ magenta] [bold white]>[/bold white] {todo}")
 
         console = Console()
         console.print(table)
@@ -74,12 +75,14 @@ class Todo_Database(Utils):
         if (history):
             table = Table()
             todos = self.load_json(DATABASE)
-            table = Table()
-            table.add_column("That's What I Did?", justify="center",
-                             style="cyan", no_wrap=True)
-            for todo in todos["completed"]:
-                table.add_row(todo)
-
+            table = Table(show_lines=True)
+           
+            table.add_column("S.No.", justify="center", style="cyan", no_wrap=True)
+            table.add_column("That's What I Did?", justify="center", style="red", no_wrap=True)
+            
+            for i, todo in enumerate(todos["completed"]):
+                table.add_row(str(i + 1), todo)
+            
             console = Console()
             console.print(table)
 
