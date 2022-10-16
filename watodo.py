@@ -64,7 +64,7 @@ class Todo_Database(Utils):
         todos = self.load_json(DATABASE)
         table = Table()
         
-        table.add_column("\t  Just Do It", justify="left", style="cyan", no_wrap=True, header_style="white")
+        table.add_column("    Just Do It", justify="left", style="cyan", no_wrap=True, header_style="white")
 
         for i, todo in enumerate(todos["in-progress"]):
             table.add_row(f"[magenta]{str(i + 1)}[/ magenta] [bold white]>[/bold white] {todo}")
@@ -72,9 +72,10 @@ class Todo_Database(Utils):
         console = Console()
         console.print(table)
 
+        # To Show History Also #
         if (history):
-            table = Table()
             todos = self.load_json(DATABASE)
+            table = Table()
             table = Table(show_lines=True)
            
             table.add_column("S.No.", justify="center", style="cyan", no_wrap=True)
@@ -96,9 +97,13 @@ if __name__ == "__main__":
         exit(0)
 
     if args[1] == "c" or args[1] == "a" or args[1] == "h" or args[1] == "reset":
+        # Add Task
         if args[1] == "a":
             task = " ".join(i for i in args[2:])
-            Todo_Database().add(task)
+            if task != "":
+                Todo_Database().add(task)
+        
+        # Complete Task
         elif args[1] == "c":
             try:
                 sno_task = int(args[2])
@@ -106,8 +111,12 @@ if __name__ == "__main__":
                 Todo_Database().show()
             except ValueError:
                 pass
+       
+        # Show Tasks History
         elif args[1] == "h":
             Todo_Database().show(True)
+       
+        # Reset Database
         elif args[1] == "reset":
             console.print("[yellow]WARNING![/yellow] This will remove all the task (y/N): ", end="")
             choice = input()
