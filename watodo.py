@@ -109,7 +109,7 @@ if __name__ == "__main__":
                 sno_task = int(args[2])
                 Todo_Database().complete(sno_task)
                 Todo_Database().show()
-            except ValueError:
+            except (ValueError, IndexError):
                 pass
        
         # Show Tasks History
@@ -118,11 +118,11 @@ if __name__ == "__main__":
        
         # Reset Database
         elif args[1] == "reset":
-            console.print("[yellow]WARNING![/yellow] This will remove all the task (y/N): ", end="")
+            console.print("[yellow]WARNING![/yellow] This will remove all the tasks (y/N): ", end="")
             choice = input()
             if choice == "y":
                 Utils().create_template()
-                print("Removed All Task Successfully!")
+                print("Removed All Tasks Successfully!")
             else:
                 print("Process Aborted!")
         else:
