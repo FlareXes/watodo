@@ -4,6 +4,14 @@ pip install rich
 
 sudo mkdir -p /opt/watodo/
 
-sudo cp ./watodo.py /opt/watodo/
+sudo chown -R "$(whoami):$(whoami)" /opt/watodo/
 
-sudo mv ./watodo /usr/local/bin/
+chmod +x ./watodo
+
+cp ./watodo /usr/local/bin/
+
+cp ./watodo.py /opt/watodo/
+
+printf "\n\nNOW YOU CAN DELETE THIS REPO\n"
+
+exit 0
