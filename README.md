@@ -44,9 +44,9 @@ git clone https://github.com/FlareXes/watodo.git
 
 cd watodo
 
-chmod +x setup.sh watodo 
+chmod +x setup 
 
-./setup.sh
+./setup
 ```
 Now you can remove the repo and also don't need to type `python watodo.py`. Just do `watodo` anywhere in terminal.
 
@@ -60,12 +60,9 @@ watodo c 3
 ```
 
 # Uninstall
-1. Remove The ***watodo.py*** Script Where You Stored It
-2. Then, Just Remove The Database Directory At ***~/.config/watodo***
-
-    ```bash
-    rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
-    ```
+```bash
+rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
+```
 
 # License
 
