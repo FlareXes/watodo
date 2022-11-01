@@ -26,9 +26,13 @@ class Utils:
         with open(DATABASE, "w") as file:
             json.dump(template, file, indent=4)
 
-    def load_json(self, json_file):
-        with open(json_file, "r") as file:
+    def load_json(self):
+        with open(DATABASE, "r") as file:
             return json.load(file)
+
+    def dump_json(self, todos):
+        with open(DATABASE, "w") as file:
+            json.dump(todos, file, indent=4)
 
 
 class Todo_Database(Utils):
@@ -37,33 +41,25 @@ class Todo_Database(Utils):
             self.create_template()
 
     def add(self, task) -> None:
-        with open(DATABASE, "r") as file:
-            todos = json.load(file)
-
+        todos = self.load_json()
         todos["in-progress"].append(task)
-
-        with open(DATABASE, "w") as file:
-            json.dump(todos, file, indent=4)
+        self.dump_json(todos)
 
     def complete(self, sno_task) -> None:
-        with open(DATABASE, "r") as file:
-            todos = json.load(file)
+        todos = self.load_json()
 
         try:
             completed_task = todos["in-progress"].pop(sno_task - 1)
-
             todos["completed"].append(completed_task)
-
-            with open(DATABASE, "w") as file:
-                json.dump(todos, file, indent=4)
+            self.dump_json(todos)
         except IndexError:
             # Just ignore, no need to force any user interaction
             pass
 
     def show(self, history=False) -> None:
-        todos = self.load_json(DATABASE)
+        todos = self.load_json()
         table = Table()
-        
+
         table.add_column("    Just Do It", justify="left", style="cyan", no_wrap=True, header_style="white")
 
         for i, todo in enumerate(todos["in-progress"]):
@@ -74,16 +70,16 @@ class Todo_Database(Utils):
 
         # To Show History Also #
         if (history):
-            todos = self.load_json(DATABASE)
+            todos = self.load_json()
             table = Table()
             table = Table(show_lines=True)
-           
+
             table.add_column("S.No.", justify="center", style="cyan", no_wrap=True)
             table.add_column("That's What I Did?", justify="center", style="red", no_wrap=True)
-            
+
             for i, todo in enumerate(todos["completed"]):
                 table.add_row(str(i + 1), todo)
-            
+
             console = Console()
             console.print(table)
 
@@ -102,7 +98,7 @@ if __name__ == "__main__":
             task = " ".join(i for i in args[2:])
             if task != "":
                 Todo_Database().add(task)
-        
+
         # Complete Task
         elif args[1] == "c":
             try:
@@ -111,14 +107,15 @@ if __name__ == "__main__":
                 Todo_Database().show()
             except (ValueError, IndexError):
                 pass
-       
+
         # Show Tasks History
         elif args[1] == "h":
             Todo_Database().show(True)
-       
+
         # Reset Database
         elif args[1] == "reset":
-            console.print("[yellow]WARNING![/yellow] This will remove all the tasks (y/N): ", end="")
+            console.print(
+                "[yellow]WARNING![/yellow] This will remove all the tasks (y/N): ", end="")
             choice = input()
             if choice == "y":
                 Utils().create_template()
