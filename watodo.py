@@ -3,15 +3,16 @@
 from secrets import choice
 from rich.console import Console
 from rich.table import Table
-from platform import system, getenv
+from platform import system
 import json
 import sys
+import os
 
 
 USER_HOME_DIR = os.path.expanduser("~")
 
 if system() == "Windows":
-    DATABASE_DIR = os.path.join(getenv("APPDATA"), "watodo")
+    DATABASE_DIR = os.path.join(os.getenv("APPDATA"), "watodo")
 elif system() == "Darwin":
     DATABASE_DIR = os.path.join(USER_HOME_DIR, "Library", "Application Support" "watodo")
 else:
