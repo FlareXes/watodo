@@ -12,6 +12,6 @@ sudo cp ./watodo /usr/local/bin/
 
 cp ./watodo.py /opt/watodo/
 
-printf "\n\nNOW YOU CAN DELETE THIS REPO\n"
+printf "\nNOW YOU CAN DELETE THIS REPO\n\n"
 
 exit 0

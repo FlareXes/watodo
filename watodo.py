@@ -3,12 +3,21 @@
 from secrets import choice
 from rich.console import Console
 from rich.table import Table
+from platform import system, getenv
 import json
 import sys
-import os
 
-DATABASE_LOC = os.path.expanduser("~") + "/.config/watodo"
-DATABASE = DATABASE_LOC + "/watodo.json"
+
+USER_HOME_DIR = os.path.expanduser("~")
+
+if system() == "Windows":
+    DATABASE_DIR = os.path.join(getenv("APPDATA"), "watodo")
+elif system() == "Darwin":
+    DATABASE_DIR = os.path.join(USER_HOME_DIR, "Library", "Application Support" "watodo")
+else:
+    DATABASE_DIR = os.path.join(USER_HOME_DIR, ".local", "share", "watodo")
+
+DATABASE = os.path.join(DATABASE_DIR, "watodo.json")
 
 
 class Utils:
@@ -21,7 +30,7 @@ class Utils:
             "completed": []
         }
 
-        os.makedirs(DATABASE_LOC, exist_ok=True)
+        os.makedirs(DATABASE_DIR, exist_ok=True)
 
         with open(DATABASE, "w") as file:
             json.dump(template, file, indent=4)
@@ -90,7 +99,7 @@ if __name__ == "__main__":
 
     if len(args) == 1:
         Todo_Database().show()
-        exit(0)
+        sys.exit(0)
 
     if args[1] == "c" or args[1] == "a" or args[1] == "h" or args[1] == "reset":
         # Add Task
