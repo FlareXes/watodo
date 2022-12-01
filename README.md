@@ -61,7 +61,7 @@ watodo c 3
 
 # Uninstall
 ```bash
-rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
+sudo rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
 ```
 
 # License
