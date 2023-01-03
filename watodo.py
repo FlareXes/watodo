@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 
-from secrets import choice
-from rich.console import Console
-from rich.table import Table
-from platform import system
 import json
-import sys
 import os
-
+from platform import system
 
 USER_HOME_DIR = os.path.expanduser("~")
 
@@ -18,121 +13,77 @@ elif system() == "Darwin":
 else:
     DATABASE_DIR = os.path.join(USER_HOME_DIR, ".local", "share", "watodo")
 
-DATABASE = os.path.join(DATABASE_DIR, "watodo.json")
+CURRENT_DATABASE = os.path.join(DATABASE_DIR, "watodo-current.json")
+HISTORY_DATABASE = os.path.join(DATABASE_DIR, "watodo-history.json")
+
+
+def config_check():
+    os.makedirs(DATABASE_DIR, exist_ok=True)
+
+    if not os.path.exists(CURRENT_DATABASE):
+        template = {"in-progress": [], }
+        with open(CURRENT_DATABASE, "w") as f:
+            json.dump(template, f, indent=4)
+
+    if not os.path.exists(HISTORY_DATABASE):
+        template = {"completed": [], }
+        with open(HISTORY_DATABASE, "w") as f:
+            json.dump(template, f, indent=4)
 
 
 class Utils:
-    def __init__(self) -> None:
-        pass
-
-    def create_template(self):
-        template = {
-            "in-progress": [],
-            "completed": []
-        }
-
-        os.makedirs(DATABASE_DIR, exist_ok=True)
-
-        with open(DATABASE, "w") as file:
-            json.dump(template, file, indent=4)
+    def __init__(self, filename):
+        self.filename = filename
 
     def load_json(self):
-        with open(DATABASE, "r") as file:
-            return json.load(file)
+        with open(self.filename, "r") as f:
+            return json.load(f)
 
     def dump_json(self, todos):
-        with open(DATABASE, "w") as file:
-            json.dump(todos, file, indent=4)
+        with open(self.filename, "w") as f:
+            json.dump(todos, f, indent=4)
 
 
-class Todo_Database(Utils):
-    def __init__(self) -> None:
-        if not os.path.exists(DATABASE):
-            self.create_template()
+class Watodo:
+    def __init__(self):
+        pass
 
-    def add(self, task) -> None:
-        todos = self.load_json()
-        todos["in-progress"].append(task)
-        self.dump_json(todos)
+    def add(self, todo):
+        todos = Utils(CURRENT_DATABASE).load_json()
+        todos["in-progress"].append(todo)
+        Utils(CURRENT_DATABASE).dump_json(todos)
+        return True
 
-    def complete(self, sno_task) -> None:
-        todos = self.load_json()
-
+    def done(self, sno):
+        todos = Utils(CURRENT_DATABASE).load_json()
+        todos_history = Utils(HISTORY_DATABASE).load_json()
         try:
-            completed_task = todos["in-progress"].pop(sno_task - 1)
-            todos["completed"].append(completed_task)
-            self.dump_json(todos)
+            done_todo = todos["in-progress"].pop(sno - 1)
+            Utils(CURRENT_DATABASE).dump_json(todos)
+
+            todos_history["completed"].append(done_todo)
+            Utils(HISTORY_DATABASE).dump_json(todos_history)
+            return True
         except IndexError:
             # Just ignore, no need to force any user interaction
-            pass
+            return False
 
-    def show(self, history=False) -> None:
-        todos = self.load_json()
-        table = Table()
+    def show(self, history: bool = False):
+        todos = Utils(CURRENT_DATABASE).load_json()
+        todos_history = Utils(HISTORY_DATABASE).load_json()
 
-        table.add_column("    Just Do It", justify="left", style="cyan", no_wrap=True, header_style="white")
-
+        print("\n########## JUST DO IT ##########")
         for i, todo in enumerate(todos["in-progress"]):
-            table.add_row(f"[magenta]{str(i + 1)}[/ magenta] [bold white]>[/bold white] {todo}")
-
-        console = Console()
-        console.print(table)
-
-        # To Show History Also #
-        if (history):
-            todos = self.load_json()
-            table = Table()
-            table = Table(show_lines=True)
-
-            table.add_column("S.No.", justify="center", style="cyan", no_wrap=True)
-            table.add_column("That's What I Did?", justify="center", style="red", no_wrap=True)
-
-            for i, todo in enumerate(todos["completed"]):
-                table.add_row(str(i + 1), todo)
-
-            console = Console()
-            console.print(table)
+            print(f"{i + 1}. {todo}")
+        if history:
+            print("\n\n########## YOU DID IT! ##########")
+            for i, todo in enumerate(todos_history["completed"]):
+                print(f"{i + 1}. {todo}")
 
 
 if __name__ == "__main__":
-    args = sys.argv
-    console = Console()
+    config_check()
+    # Watodo().add("one")
+    # Watodo().done(2)
 
-    if len(args) == 1:
-        Todo_Database().show()
-        sys.exit(0)
 
-    if args[1] == "c" or args[1] == "a" or args[1] == "h" or args[1] == "reset":
-        # Add Task
-        if args[1] == "a":
-            task = " ".join(i for i in args[2:])
-            if task != "":
-                Todo_Database().add(task)
-
-        # Complete Task
-        elif args[1] == "c":
-            try:
-                sno_task = int(args[2])
-                Todo_Database().complete(sno_task)
-                Todo_Database().show()
-            except (ValueError, IndexError):
-                pass
-
-        # Show Tasks History
-        elif args[1] == "h":
-            Todo_Database().show(True)
-
-        # Reset Database
-        elif args[1] == "reset":
-            console.print(
-                "[yellow]WARNING![/yellow] This will remove all the tasks (y/N): ", end="")
-            choice = input()
-            if choice == "y":
-                Utils().create_template()
-                print("Removed All Tasks Successfully!")
-            else:
-                print("Process Aborted!")
-        else:
-            pass
-    else:
-        pass
