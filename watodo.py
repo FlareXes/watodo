@@ -2,6 +2,7 @@
 
 import json
 import os
+import sys
 from platform import system
 
 USER_HOME_DIR = os.path.expanduser("~")
@@ -79,11 +80,48 @@ class Watodo:
             print("\n\n########## YOU DID IT! ##########")
             for i, todo in enumerate(todos_history["completed"]):
                 print(f"{i + 1}. {todo}")
+        print()
 
 
 if __name__ == "__main__":
     config_check()
-    # Watodo().add("one")
-    # Watodo().done(2)
+    args = sys.argv
 
+    if len(args) == 1:
+        Watodo().show()
 
+    elif args[1] == "a" or args[1] == "c" or args[1] == "h" or args[1] == "reset":
+        # Add Task
+        if args[1] == "a":
+            todo = " ".join(i for i in args[2:])
+            Watodo().add(todo)
+
+        # Complete Task
+        elif args[1] == "c":
+            try:
+                sno = int(args[2])
+            except ValueError:
+                sys.exit(2)
+            if sno > 0:
+                Watodo().done(sno)
+
+        # Show Tasks And History
+        elif args[1] == "h":
+            Watodo().show(True)
+
+        # Reset Database
+        elif args[1] == "reset":
+            ans = input("Are you sure you want to delete all tasks and history (y/N)? ").lower()
+            if ans == "y":
+                try:
+                    os.remove(CURRENT_DATABASE)
+                    os.remove(HISTORY_DATABASE)
+                    print("Successfully deleted tasks and history.")
+                except OSError:
+                    print("Failed to delete tasks and history.")
+            else:
+                print("Abort deletion of tasks and history.")
+        else:
+            pass
+    else:
+        pass
