@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Check if /opt/watodo/ directory does not exist
+if ! [ -d /opt/watodo/ ]; then
+  echo -e "\033[1;31mError: Watodo not installed.\033[0m" >&2
+  echo "Install from here: https://github.com/FlareXes/watodo"
+  exit 1
+fi
+
+# Check if /opt/watodo/watodo.py file does not exist
+if ! [ -f /opt/watodo/watodo.py ]; then
+  echo -e "\033[1;31mError: Failed to start watodo, '/opt/watodo/watodo.py' not found.\033[0m" >&2
+    echo "Install from here: https://github.com/FlareXes/watodo"
+  exit 1
+fi
+
+python3 /opt/watodo/watodo.py "$@"

@@ -1,17 +1,62 @@
 #!/bin/sh
 
-pip install rich
+# Print text in colored format
+log_echo() {
+  # $1 is the text to print
+  # $2 is the color of the text
 
-sudo mkdir -p /opt/watodo/
+  if [ "$2" == "red" ]; then
+    # Print the text in red
+    echo -e "\033[1;31m$1\033[0m" >&2
+    exit 1
 
-sudo chown -R "$(whoami):$(whoami)" /opt/watodo/
+  elif [ "$2" == "green" ]; then
+    # Print the text in green
+    echo -e "\033[1;32m$1\033[0m"
 
-chmod +x ./watodo
+  else
+    # If the color is not recognized, print the text in the default color
+    echo "$1"
+  fi
+}
 
-sudo cp ./watodo /usr/local/bin/
+# Make the bin/watodo script executable
+if ! chmod +x ./bin/watodo; then
+  log_echo "Error: Failed to make the watodo executable" "red"
+fi
 
-cp ./watodo.py /opt/watodo/
+# Create the /opt/watodo/ directory if it does not exist
+if ! [ -d /opt/watodo/ ]; then
+  if ! sudo mkdir -p /opt/watodo/; then
+    log_echo "Error: Failed to create the /opt/watodo/ directory" "red"
+  fi
+fi
 
-printf "\nNOW YOU CAN DELETE THIS REPO\n\n"
+# Create the /usr/share/licenses/watodo/ directory if it does not exist
+if ! [ -d /usr/share/licenses/watodo/ ]; then
+  if ! sudo mkdir -p /usr/share/licenses/watodo/; then
+    log_echo "Error: Failed to create the /usr/share/licenses/watodo/ directory" "red"
+  fi
+fi
 
-exit 0
+# Copy the necessary files and directories to /opt/watodo/
+if ! sudo cp ./watodo.py ./README.md /opt/watodo/; then
+  log_echo "Error: Failed to copy files to /opt/watodo/" "red"
+fi
+
+# Copy the LICENCE to /usr/share/licenses/watodo/
+if ! sudo cp ./LICENCE /usr/share/licenses/watodo/; then
+  log_echo "Error: Failed to copy LICENCE to /usr/share/licenses/watodo/" "red"
+fi
+
+# Copy the watodo script to /usr/local/bin/watodo
+if ! sudo cp ./bin/watodo /usr/local/bin/watodo; then
+  log_echo "Error: Failed to copy the bin/watodo script to /usr/local/bin/watodo" "red"
+fi
+
+# Change /opt/watodo/ directory ownership to current user
+if ! sudo chown -R "$(whoami):$(whoami)" /opt/watodo/; then
+  log_echo "Error: Failed to change ownership of /opt/watodo/" "red"
+fi
+
+log_echo "Now you can delete cloned repository" "green"
