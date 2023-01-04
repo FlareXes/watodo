@@ -44,6 +44,13 @@ class Utils:
         with open(self.filename, "w") as f:
             json.dump(todos, f, indent=4)
 
+    @staticmethod
+    def pprint(id: int = None, todo: str = None):
+        if id and todo:
+            print(f"\033[95m\033[1m{id}.\033[0m\033[00m \033[94m\033[1m{todo}\033[0m\033[00m")
+        elif todo:
+            print(f"\033[96m\033[1m{todo}\033[0m\033[00m")
+
 
 class Watodo:
     def __init__(self):
@@ -73,13 +80,15 @@ class Watodo:
         todos = Utils(CURRENT_DATABASE).load_json()
         todos_history = Utils(HISTORY_DATABASE).load_json()
 
-        print("\n########## JUST DO IT ##########")
+        Utils.pprint(todo="########## JUST DO IT! ##########")
+        Utils.pprint(todo="---------------------------------\n")
         for i, todo in enumerate(todos["in-progress"]):
-            print(f"{i + 1}. {todo}")
+            Utils.pprint(i + 1, todo)
         if history:
-            print("\n\n########## YOU DID IT! ##########")
+            Utils.pprint(todo="\n\n########## YOU DID IT! ##########")
+            Utils.pprint(todo="---------------------------------\n")
             for i, todo in enumerate(todos_history["completed"]):
-                print(f"{i + 1}. {todo}")
+                Utils.pprint(i + 1, todo)
         print()
 
 
