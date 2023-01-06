@@ -18,6 +18,29 @@ CURRENT_DATABASE = os.path.join(DATABASE_DIR, "watodo-current.json")
 HISTORY_DATABASE = os.path.join(DATABASE_DIR, "watodo-history.json")
 
 
+def help():
+    print("""\033[96mUSAGE: watodo [Option] (a, c, h, reset, help) { todo }
+
+Arguments:\033[00m
+    \033[92ma 	    Add a todo\033[00m
+    \033[92mc 	    Mark todo as complete\033[00m
+    \033[93mh 	    Show todos with history\033[00m
+    \033[91mreset   Forget all todos including history\033[00m
+
+\033[96m# Add a todo\033[00m
+watodo a [my todo]
+
+\033[96m# Mask as complete a todo\033[00m
+watodo c [todo sno.]
+
+\033[96m# Show all todo with history\033[00m
+watodo h
+
+\033[96m# Delete all todo with history\033[00m
+watodo reset
+""")
+
+
 def config_check():
     os.makedirs(DATABASE_DIR, exist_ok=True)
 
@@ -80,7 +103,7 @@ class Watodo:
         todos = Utils(CURRENT_DATABASE).load_json()
         todos_history = Utils(HISTORY_DATABASE).load_json()
 
-        Utils.pprint(todo="########## JUST DO IT! ##########")
+        Utils.pprint(todo="\n---------- JUST DO IT! ----------")
         Utils.pprint(todo="---------------------------------\n")
         for i, todo in enumerate(todos["in-progress"]):
             Utils.pprint(i + 1, todo)
@@ -99,7 +122,7 @@ if __name__ == "__main__":
     if len(args) == 1:
         Watodo().show()
 
-    elif args[1] == "a" or args[1] == "c" or args[1] == "h" or args[1] == "reset":
+    elif args[1] == "a" or args[1] == "c" or args[1] == "h" or args[1] == "reset" or args[1] == "help":
         # Add Task
         if args[1] == "a":
             todo = " ".join(i for i in args[2:])
@@ -131,6 +154,7 @@ if __name__ == "__main__":
             else:
                 print("Abort deletion of tasks and history.")
         else:
-            pass
+            help()
     else:
-        pass
+        help()
+        sys.exit(2)
