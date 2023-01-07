@@ -70,7 +70,7 @@ class Utils:
     @staticmethod
     def pprint(id: int = None, todo: str = None):
         if id and todo:
-            print(f"\033[95m\033[1m{id}.\033[0m\033[00m \033[94m\033[1m{todo}\033[0m\033[00m")
+            print(f"\033[92m\033[1m{id} >\033[0m\033[00m \033[3;1m{todo}\033[00m")
         elif todo:
             print(f"\033[96m\033[1m{todo}\033[0m\033[00m")
 
@@ -103,8 +103,7 @@ class Watodo:
         todos = Utils(CURRENT_DATABASE).load_json()
         todos_history = Utils(HISTORY_DATABASE).load_json()
 
-        Utils.pprint(todo="\n---------- JUST DO IT! ----------")
-        Utils.pprint(todo="---------------------------------\n")
+        print()
         for i, todo in enumerate(todos["in-progress"]):
             Utils.pprint(i + 1, todo)
         if history:

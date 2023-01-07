@@ -1,67 +1,61 @@
 # Watodo
 Very Minimal Todo Script With No Garbage - Which Suckless So, Just Do It Now. `Watodo` Tells What To Do? On Terminal.
 
-# Usage
-Add A Task
+# Installation
+### Linux / MacOS
 ```bash
-python watodo.py a [Text Here]
-```
-Mark A Task Complete
-```bash
-python watodo.py c [No. Of Task]
-```
-Example, Mask Task 2 As Complete
-```bash
-python watodo.py c 2
-```
-To List In-Progress Tasks Just Do
-```bash
-python watodo.py
-```
-List All Tasks
-```bash
-python watodo.py h
+git clone https://github.com/FlareXes/watodo.git && cd watodo
+
+chmod +x setup && ./setup
 ```
 
-# Arguments
+### Windows
+Only `watodo.py` file is required
+```
+git clone https://github.com/FlareXes/watodo.git
+
+python watodo.py
+```
+
+# Usage
+
+## Arguments
+
 Args | Description |
 ---|---
 a | Add a todo
 c | Mark todo as complete
 h | Show history
 reset | Forget all todos including history
+help | Show help menu
 
-# Requirements
-- rich
+
+## Examples
+
+To add a todo
 ```bash
-pip install rich
+watodo a [Todo Here]
 ```
-
-# Installation
-### Linux / MacOS
+To mark a todo as complete
 ```bash
-git clone https://github.com/FlareXes/watodo.git
-
-cd watodo
-
-chmod +x setup 
-
-./setup
+watodo c [Todo Sno]
 ```
-Now you can remove the repo and also don't need to type `python watodo.py`. Just do `watodo` anywhere in terminal.
-
-Example
+Example, Mask Task 2 As Complete
 ```bash
-watodo a update github repo
+watodo c 2
 ```
-
+To List Current Todos
 ```bash
-watodo c 3
+watodo
+```
+To List All Tasks
+```bash
+watodo h
 ```
 
 # Uninstall
 ```bash
-sudo rm -rf ~/.config/watodo /opt/watodo /usr/local/bin/watodo
+sudo rm -rf ~/.local/share/watodo /opt/watodo /usr/local/bin/watodo
 ```
 
 # License
