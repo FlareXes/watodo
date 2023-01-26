@@ -70,6 +70,7 @@ class Utils:
     @staticmethod
     def pprint(id: int = None, todo: str = None):
         if id and todo:
+            todo = repr(todo).replace("'", "")
             print(f"\033[92m\033[1m{id} >\033[0m\033[00m \033[3;1m{todo}\033[00m")
         elif todo:
             print(f"\033[96m\033[1m{todo}\033[0m\033[00m")
