@@ -54,9 +54,19 @@ watodo h
 ```
 
 # Uninstall
+**Linux**
 ```bash
-sudo rm -rf ~/.local/share/watodo /opt/watodo /usr/local/bin/watodo
+sudo rm -rf /home/$USER/.local/share/watodo /opt/watodo /usr/local/bin/watodo
 ```
+
+**Mac OS**
+```bash
+sudo rm -rf /Users/$USER/Library/Application Support/watodo /opt/watodo /usr/local/bin/watodo
+```
+
+**Windows**
+Delete folder `C:\users\yourname\AppData\watodo`
+
 
 # License
 
