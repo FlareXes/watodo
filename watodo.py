@@ -127,6 +127,8 @@ if __name__ == "__main__":
         if args[1] == "a":
             todo = " ".join(i for i in args[2:])
             Watodo().add(todo)
+            Watodo().show()
+
 
         # Complete Task
         elif args[1] == "c":
@@ -136,6 +138,8 @@ if __name__ == "__main__":
                 sys.exit(2)
             if sno > 0:
                 Watodo().done(sno)
+            Watodo().show()
+
 
         # Show Tasks And History
         elif args[1] == "h":
