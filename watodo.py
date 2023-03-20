@@ -10,7 +10,7 @@ USER_HOME_DIR = os.path.expanduser("~")
 if system() == "Windows":
     DATABASE_DIR = os.path.join(os.getenv("APPDATA"), "watodo")
 elif system() == "Darwin":
-    DATABASE_DIR = os.path.join(USER_HOME_DIR, "Library", "Application Support" "watodo")
+    DATABASE_DIR = os.path.join(USER_HOME_DIR, "Library", "Application Support", "watodo")
 else:
     DATABASE_DIR = os.path.join(USER_HOME_DIR, ".local", "share", "watodo")
 
@@ -77,9 +77,6 @@ class Utils:
 
 
 class Watodo:
-    def __init__(self):
-        pass
-
     def add(self, todo):
         todos = Utils(CURRENT_DATABASE).load_json()
         todos["in-progress"].append(todo)
