@@ -1,0 +1,23 @@
+{
+  "name": "watodo",
+  "version": "1.0.0",
+  "description": "Just Do It, Todo Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "watodo",
+    "todo",
+    "flarexes"
+  ],
+  "author": "FlareXes",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "electron": "^24.2.0",
+    "electron-packager": "^17.1.1"
+  }
+}

@@ -1,0 +1,152 @@
+:root {
+    --dark: #374151;
+    --darker: #1F2937;
+    --darkest: #111827;
+    --neo: #b6c6e5;
+    --lightpurple: #a9c4f8;
+    --pink: #EC4899;
+    --purple: #4c00ff;
+    --light: #EEE;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Fira sans', sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--darkest);
+    color: #FFFFFF;
+}
+
+header {
+    padding: 2rem 1rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--lightpurple);
+    margin-bottom: 1rem;
+}
+
+
+#todo-from {
+    display: flex;
+}
+
+input,
+button {
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+#todo-input {
+    flex: 1 1 0%;
+    background-color: var(--darker);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    color: var(--light);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+#todo-input::placeholder {
+    color: var(--neo);
+    font-weight: 500;
+}
+
+#todo-input:focus::placeholder {
+    transition: opacity 0.3s;
+    opacity: 0.30;
+}
+
+main {
+    flex: 1 1 0%;
+    padding: 2rem 1rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.todo-list {
+    padding: 1rem;
+}
+
+
+.todo-list h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--lightpurple);
+    margin-bottom: 1rem;
+}
+
+.todo-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darker);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.todo-row .content {
+    flex: 1 1 0%;
+}
+
+.todo-row .content .text {
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    display: block;
+    transition: 0.4s;
+}
+
+.todo-row .content .text:not(:read-only) {
+    color: var(--pink);
+}
+
+.todo-row .actions button {
+    cursor: pointer;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.4s;
+}
+
+.todo-row .actions button:hover {
+    opacity: 0.8;
+}
+
+.todo-row .actions button:active {
+    opacity: 0.6;
+}
+
+.todo-row .actions .edit {
+    background-image: linear-gradient(to right, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.todo-row .actions .delete {
+    background-image: linear-gradient(to right, crimson, var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
