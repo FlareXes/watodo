@@ -1,10 +1,10 @@
 # Watodo
-Very Minimal Todo Script With No Garbage - Which Suckless So, Just Do It Now. `Watodo` Tells What To Do? On Terminal.
+Very Minimal Todo Script With No Garbage - Which Suckless So, Just Do It Now. `Watodo` Tells What To Do?
 
-# Installation
+# CLI Installation
 ### Linux / MacOS
 ```bash
-git clone https://github.com/FlareXes/watodo.git && cd watodo
+git clone https://github.com/FlareXes/watodo.git && cd watodo/cli
 
 chmod +x setup && ./setup
 ```
@@ -17,7 +17,24 @@ git clone https://github.com/FlareXes/watodo.git
 python watodo.py
 ```
 
-# Usage
+# GUI Installation
+You can download standalone binaries from [releases](https://github.com/FlareXes/release) page.
+
+## Build Own Binary
+
+### Prerequisites
+- nodejs
+- npm
+
+```bash
+git clone https://github.com/FlareXes/watodo.git && cd watodo/gui
+
+npm install
+
+npx electron-packager .
+```
+
+# CLI Usage
 
 ## Arguments
 
