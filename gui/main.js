@@ -35,11 +35,10 @@ function createWindow() {
             enableRemoteModule: true,
             devTools: false
         },
-        autoHideMenuBar: true,
     });
 
+    mainWindow.setMenu(null);
     mainWindow.loadFile('index.html');
-
     mainWindow.on('closed', () => {
         mainWindow = null;
     });

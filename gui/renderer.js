@@ -83,8 +83,9 @@ function deleteTodo(todoId) {
 
 todoForm.addEventListener('submit', event => {
     event.preventDefault()
-    const todo = todoInput.value
-    addTodo(todo)
+    const todo = todoInput.value.trim()
+    if (todo !== "")
+        addTodo(todo)
     todoInput.value = ''
 })
 
