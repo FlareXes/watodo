@@ -20,16 +20,17 @@ log_echo() {
   fi
 }
 
-# Make the bin/watodo script executable
-if ! chmod +x ./bin/watodo; then
-  log_echo "Error: Failed to make the watodo executable" "red"
-fi
 
 # Create the /opt/watodo/ directory if it does not exist
 if ! [ -d /opt/watodo/ ]; then
   if ! sudo mkdir -p /opt/watodo/; then
     log_echo "Error: Failed to create the /opt/watodo/ directory" "red"
   fi
+fi
+
+# Change /opt/watodo/ directory ownership to current user
+if ! sudo chown -R "$(whoami):$(whoami)" /opt/watodo/; then
+  log_echo "Error: Failed to change ownership of /opt/watodo/" "red"
 fi
 
 # Create the /usr/share/licenses/watodo/ directory if it does not exist
@@ -39,8 +40,8 @@ if ! [ -d /usr/share/licenses/watodo/ ]; then
   fi
 fi
 
-# Copy the necessary files and directories to /opt/watodo/
-if ! sudo cp ./watodo.py ./README.md /opt/watodo/; then
+# Copy the necessary files to /opt/watodo/
+if ! cp ./watodo.py ./README.md ./LICENCE /opt/watodo/; then
   log_echo "Error: Failed to copy files to /opt/watodo/" "red"
 fi
 
@@ -49,14 +50,14 @@ if ! sudo cp ./LICENCE /usr/share/licenses/watodo/; then
   log_echo "Error: Failed to copy LICENCE to /usr/share/licenses/watodo/" "red"
 fi
 
+# Make the bin/watodo script executable
+if ! chmod +x ./bin/watodo; then
+  log_echo "Error: Failed to make the watodo executable" "red"
+fi
+
 # Copy the watodo script to /usr/local/bin/watodo
 if ! sudo cp ./bin/watodo /usr/local/bin/watodo; then
   log_echo "Error: Failed to copy the bin/watodo script to /usr/local/bin/watodo" "red"
-fi
-
-# Change /opt/watodo/ directory ownership to current user
-if ! sudo chown -R "$(whoami):$(whoami)" /opt/watodo/; then
-  log_echo "Error: Failed to change ownership of /opt/watodo/" "red"
 fi
 
 log_echo "Now you can delete cloned repository" "green"
